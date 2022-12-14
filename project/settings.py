@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'knox',
     'djmoney',
+    'drf_yasg',
+    # 'rest_framework_swagger',
 ]
 
 MIDDLEWARE = [
@@ -142,5 +144,8 @@ REST_FRAMEWORK = {
         # 'rest_framework.authentication.BasicAuthentication',
         # 'rest_framework.authentication.SessionAuthentication',
         'knox.auth.TokenAuthentication',
-    ]
+    ],
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
 }
+
+# REST_FRAMEWORK = { 'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema' }

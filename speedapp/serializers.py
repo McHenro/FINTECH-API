@@ -40,7 +40,6 @@ class DepositCreateAPISerializer(serializers.Serializer):
     
     def validate(self, attrs):
         errors = {}
-        # verify that appt amount is the amount set by the doctor
         amount = attrs['amount']
         account = attrs['account']
         
@@ -61,14 +60,11 @@ class DepositCreateAPISerializer(serializers.Serializer):
     def create(self, validated_data):
         account_id = validated_data.get('account')
         amount = validated_data.get('amount')
-        
         account = Account.objects.get(pk=account_id)
-        
         account.balance += amount 
         account.save()
         
         Deposit.objects.create(amount=amount, account=account)
-        
         return account
 
 
@@ -80,7 +76,6 @@ class WithdrawCreateAPISerializer(serializers.Serializer):
         errors = {}
         amount = attrs['amount']
         account_id  = attrs['account']
-        breakpoint()
         
         if amount < 1000.00:
             errors['amount'] = 'Please you can only withdraw above 1000 '
@@ -90,9 +85,8 @@ class WithdrawCreateAPISerializer(serializers.Serializer):
                 if account.balance <= 0.00:
                     errors['amount'] = 'Insuffucuent fund, Please fund your account'
                 withdrawee_id = self.context['request'].user.id
-                # breakpoint()
+                # Check if the person withdrawing is the owner of the account
                 if withdrawee_id != account.owner.id:
-                    breakpoint()
                     errors['detail'] = 'This Account does not belong to you'
             except Account.DoesNotExist:
                 errors['detail'] = 'This Account does not exist'
@@ -106,10 +100,7 @@ class WithdrawCreateAPISerializer(serializers.Serializer):
         account_id = validated_data.get('account')
         amount = validated_data.get('amount')
         account = Account.objects.get(pk=account_id)
-        
         account.balance -= amount 
         account.save()
-        
         Withdraw.objects.create(amount=amount, account=account)
-        
         return account
