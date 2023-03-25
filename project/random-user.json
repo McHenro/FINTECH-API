@@ -13,10 +13,11 @@
   "paths": {
     "/api/": {
       "get": {
-        "description": "Auto generated using Swagger Inspector",
+        "description": "This returns a randomly generated user with the following attributes: gender, name, location, email, login, registered, dob, phone, cell, id, picture, nat",
         "parameters": [
           {
             "name": "password",
+            "description": "Password type to use. The format is `CHARSETS,MIN_LENGTH-MAX_LENGTH` or `CHARSETS,MAX_LENGTH`. CHARSETS options are `special`, `upper`, `lower`, and `number` while `MIN_LENGTH` and `MAX_LENGTH` are integers.",
             "in": "query",
             "required": false,
             "style": "form",
@@ -24,7 +25,7 @@
             "schema": {
               "type": "string"
             },
-            "example": "upper%2Clower%2C1-16"
+            "example": "upper,lower,1-16"
           },
           {
             "name": "gender",
@@ -49,6 +50,17 @@
             "example": "foobar"
           },
           {
+            "name": "nat",
+            "description": "Nationality of generated user. Options are AU, BR, CA, CH, DE, DK, ES, FI, FR, GB, IE, IN, IR, MX, NL, NO, NZ, RS, TR, UA, US",
+            "in": "query",
+            "required": false,
+            "explode": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "us"
+          },
+          {
             "name": "format",
             "in": "query",
             "required": false,
@@ -57,35 +69,105 @@
             "schema": {
               "type": "string"
             },
-            "example": "csv"
+            "example": "json"
           },
           {
             "name": "results",
+            "description": "Number of results to return",
             "in": "query",
             "required": false,
             "style": "form",
             "explode": true,
             "schema": {
+              "type": "number"
+            },
+            "example": 3
+          },
+          {
+            "name": "inc",
+            "description": "Include the listed fields in the response. The options are gender, name, location, email, login, registered, dob, phone, cell, id, picture, nat",
+            "in": "query",
+            "required": false,
+            "schema": {
               "type": "string"
             },
-            "example": "3"
+            "example": "gender,name,nat"
           }
         ],
         "responses": {
-          "200": {
-            "description": "Auto generated using Swagger Inspector",
+          "default": {
+            "description": "A complex object array response",
             "content": {
-              "application/json; charset=utf-8": {
+              "application/json": {
                 "schema": {
-                  "type": "string"
+                  "type": "object"
                 },
-                "examples": {}
-              },
-              "text/csv; charset=utf-8": {
-                "schema": {
-                  "type": "string"
-                },
-                "examples": {}
+                "example": {
+                  "results": [
+                    {
+                      "gender": "male",
+                      "name": {
+                        "title": "Mr",
+                        "first": "Amaury",
+                        "last": "Vincent"
+                      },
+                      "location": {
+                        "street": {
+                          "number": 7580,
+                          "name": "Place de L'Église"
+                        },
+                        "city": "Brest",
+                        "state": "Lot-et-Garonne",
+                        "country": "France",
+                        "postcode": 95004,
+                        "coordinates": {
+                          "latitude": "-14.5224",
+                          "longitude": "-161.6008"
+                        },
+                        "timezone": {
+                          "offset": "+5:00",
+                          "description": "Ekaterinburg, Islamabad, Karachi, Tashkent"
+                        }
+                      },
+                      "email": "amaury.vincent@example.com",
+                      "login": {
+                        "uuid": "fac339f9-1799-4899-a83e-46379b72d350",
+                        "username": "orangeelephant895",
+                        "password": "blue99",
+                        "salt": "JhDJLGML",
+                        "md5": "b36d92869eb01f253cfa47e30b8c1aa8",
+                        "sha1": "25c1b68b86414aad95168e9cc1e5da2253a8edf6",
+                        "sha256": "c2f13cc8fbbe5ffde8f142befcccd50f431d014cbbca9dd3b412c15b9fef9b14"
+                      },
+                      "dob": {
+                        "date": "1959-05-31T23:43:50.740Z",
+                        "age": 63
+                      },
+                      "registered": {
+                        "date": "2010-10-19T07:58:17.451Z",
+                        "age": 12
+                      },
+                      "phone": "03-57-41-82-30",
+                      "cell": "06-61-52-27-02",
+                      "id": {
+                        "name": "INSEE",
+                        "value": "1590498903731 24"
+                      },
+                      "picture": {
+                        "large": "https://randomuser.me/api/portraits/men/24.jpg",
+                        "medium": "https://randomuser.me/api/portraits/med/men/24.jpg",
+                        "thumbnail": "https://randomuser.me/api/portraits/thumb/men/24.jpg"
+                      },
+                      "nat": "FR"
+                    }
+                  ],
+                  "info": {
+                    "seed": "686db9b6d3b4390a",
+                    "results": 1,
+                    "page": 1,
+                    "version": "1.4"
+                  }
+                }
               }
             }
           }
